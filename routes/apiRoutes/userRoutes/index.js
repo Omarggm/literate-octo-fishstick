@@ -1,4 +1,4 @@
-const { createUser, getAllUsers, getUserById } = require('../../../controllers/userController');
+const { createUser, getAllUsers, getUserById, updateUser } = require('../../../controllers/userController');
 const router = require('express').Router();
 
 router.route('/')
@@ -6,7 +6,8 @@ router.route('/')
 .get(getAllUsers);
 
 router.route('/:id')
-.get(getUserById);
+.get(getUserById)
+.post(updateUser);
 
 
 module.exports = router;
