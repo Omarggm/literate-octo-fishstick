@@ -60,7 +60,7 @@ const deleteUser = async (req, res) => {
       res.status(404).json({ message: "No user with this id!" });
       return;
     }
-    res.json({ message: 'User deleted!' });
+    res.json({ message: "User deleted!" });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -85,6 +85,30 @@ const addFriend = async (req, res) => {
   }
 };
 
+const removeFriend = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.userId,
+      { $pull: { friends: req.params.friendId } },
+      { new: true, runValidators: true }
+    );
+    if (!user) {
+      res.status(404).json({ message: "No user with this id!" });
+      return;
+    }
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 
-
-module.exports = { createUser, getAllUsers, getUserById, updateUser, deleteUser, addFriend };
+module.exports = {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+  addFriend,
+  removeFriend,
+};
