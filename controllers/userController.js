@@ -70,7 +70,7 @@ const deleteUser = async (req, res) => {
 const addFriend = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
-      req.params.id,
+      req.params.userId,
       { $addToSet: { friends: req.params.friendId } },
       { new: true, runValidators: true }
     );

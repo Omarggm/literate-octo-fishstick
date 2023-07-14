@@ -18,6 +18,12 @@ const UserSchema = new Schema({
         message : "Please enter a valid email"
     }
   },
+  friends: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 module.exports = model("User", UserSchema);
