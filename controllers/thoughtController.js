@@ -27,49 +27,73 @@ const getAllThoughts = async (req, res) => {
 };
 
 const getThoughtById = async (req, res) => {
-  try{
+  try {
     const thought = await Thought.findById(req.params.id);
-    if(!thought){
-      res.status(404).json({message: "No thought with this id!"});
+    if (!thought) {
+      res.status(404).json({ message: "No thought with this id!" });
       return;
     }
     res.json(thought);
-  }catch (error){
+  } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 };
 
 const updateThought = async (req, res) => {
-  try{
+  try {
     const thought = await Thought.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
-      });
-      if(!thought){
-        res.status(404).json({message: "No thought with this id!"});
-        return;
-      }
-      res.json(thought);
-  }catch (error){
+    });
+    if (!thought) {
+      res.status(404).json({ message: "No thought with this id!" });
+      return;
+    }
+    res.json(thought);
+  } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 };
 
 const deleteThought = async (req, res) => {
-  try{
+  try {
     const thought = await Thought.findByIdAndDelete(req.params.id);
-    if(!thought){
-      res.status(404).json({message: "No thought with this id!"});
+    if (!thought) {
+      res.status(404).json({ message: "No thought with this id!" });
       return;
     }
-    res.json({message: "Thought deleted!"});
-  }catch (error){
+    res.json({ message: "Thought deleted!" });
+  } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 };
 
+const addReaction = async (req, res) => {
+  try {
+    const thought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      { $addToSet: { reactions: req.body } },
+      { new: true, runValidators: true }
+    );
+    if (!thought) {
+      res.status(404).json({ message: "No thought with this id!" });
+      return;
+    }
+    res.json(thought);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 
-module.exports = { createThought, getAllThoughts, getThoughtById, updateThought, deleteThought };
+module.exports = {
+  createThought,
+  getAllThoughts,
+  getThoughtById,
+  updateThought,
+  deleteThought,
+  addReaction,
+};
