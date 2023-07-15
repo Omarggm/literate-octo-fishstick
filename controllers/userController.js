@@ -55,17 +55,18 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await User.deleteOne({ _id: req.params.id });
     if (!user) {
       res.status(404).json({ message: "No user with this id!" });
       return;
     }
-    res.json({ message: "User deleted!" });
+    res.json({ message: "User and associated thoughts deleted!" });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
 };
+
 
 const addFriend = async (req, res) => {
   try {
