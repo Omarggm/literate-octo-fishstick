@@ -40,4 +40,22 @@ const getThoughtById = async (req, res) => {
   }
 };
 
-module.exports = { createThought, getAllThoughts, getThoughtById };
+const updateThought = async (req, res) => {
+  try{
+    const thought = await Thought.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+      });
+      if(!thought){
+        res.status(404).json({message: "No thought with this id!"});
+        return;
+      }
+      res.json(thought);
+  }catch (error){
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+
+module.exports = { createThought, getAllThoughts, getThoughtById, updateThought };
