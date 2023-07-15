@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Thought = require("./Thoughts");
 
 const UserSchema = new Schema({
   username: {
@@ -11,12 +12,12 @@ const UserSchema = new Schema({
     type: String,
     unique: true,
     required: true,
-    validate : {
-        validator : function(email) {
-            return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,7})?$/.test(email);
-        },
-        message : "Please enter a valid email"
-    }
+    validate: {
+      validator: function (email) {
+        return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,7})?$/.test(email);
+      },
+      message: "Please enter a valid email",
+    },
   },
   friends: [
     {
@@ -24,6 +25,11 @@ const UserSchema = new Schema({
       ref: "User",
     },
   ],
+});
+
+UserSchema.pre("remove", async function (next) {
+  await Thought.remove({ username: this.username }).exec();
+  next();
 });
 
 module.exports = model("User", UserSchema);
