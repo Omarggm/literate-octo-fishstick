@@ -89,6 +89,29 @@ const addReaction = async (req, res) => {
   }
 };
 
+const deleteReaction = async (req, res) => {
+  try {
+    const { thoughtId, reactionId } = req.params;
+    const thought = await Thought.findById(thoughtId);
+    if (!thought) {
+      res.status(404).json({ message: "No thought with this id!" });
+      return;
+    }
+    const reactionIndex = thought.reactions.findIndex(
+      (reaction) => reaction._id.toString() === reactionId
+    );
+    if (reactionIndex === -1) {
+      res.status(404).json({ message: "No reaction with this id!" });
+      return;
+    }
+    thought.reactions.splice(reactionIndex, 1);
+    await thought.save();
+    res.json({ message: "Reaction deleted!" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 module.exports = {
   createThought,
   getAllThoughts,
@@ -96,4 +119,5 @@ module.exports = {
   updateThought,
   deleteThought,
   addReaction,
+  deleteReaction,
 };
