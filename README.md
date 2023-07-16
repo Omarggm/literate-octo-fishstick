@@ -20,7 +20,7 @@ Before you start, make sure you have Node.js and MongoDB installed on your machi
 
 Here are some examples of how to use the API:
 
-[Video Tutorial Via Postman]https://drive.google.com/file/d/1vwAaydTajTh6z_27B3D3_Aqx0Rq90Udl/view
+[Video Tutorial Via Postman](https://drive.google.com/file/d/1vwAaydTajTh6z_27B3D3_Aqx0Rq90Udl/view)
 
 ## Contributing
 
